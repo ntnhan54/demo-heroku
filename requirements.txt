@@ -1,5 +1,5 @@
 numpy
 pandas
 streamlit==0.76.0
-tensorflow==2.6.0
+tensorflow-cpu
 scipy
