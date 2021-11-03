@@ -6,8 +6,8 @@ import pandas as pd
 import streamlit as st
 import json
 from utils import *
-# from bpr import *
-# import tensorflow as tf
+from bpr import *
+import tensorflow as tf
 import hashlib
 
 
@@ -82,34 +82,34 @@ def main():
             st.dataframe(data=display_rules, width=2000, height=480)
 
 
-    # b_bpr = st.checkbox('Recommend using BPR MF')
-    # if b_bpr:
-    #     f = open('bpr/bpr_model.json')
-    #     config = json.load(f)
-    #     model = build_model(config['M'], config['N'], config['k'])
-    #     model.load_weights("bpr/bpr_model.h5")
-    #     sids, scores = get_recommend(model, user_id, k)
+    b_bpr = st.checkbox('Recommend using BPR MF')
+    if b_bpr:
+        f = open('bpr/bpr_model.json')
+        config = json.load(f)
+        model = build_model(config['M'], config['N'], config['k'])
+        model.load_weights("bpr/bpr_model.h5")
+        sids, scores = get_recommend(model, user_id, k)
 
-    #     movies_df = pd.read_pickle('movies.pkl')
-    #     res = movies_df.loc[sids, ['movie_name', 'movie_genres']].copy()
-    #     res['score'] = scores
-    #     st.dataframe(res)
+        movies_df = pd.read_pickle('movies.pkl')
+        res = movies_df.loc[sids, ['movie_name', 'movie_genres']].copy()
+        res['score'] = scores
+        st.dataframe(res)
 
-    # k_from_emb = st.sidebar.slider('Top k from Embedding vector',1, 10, value=3)
+    k_from_emb = st.sidebar.slider('Top k from Embedding vector',1, 10, value=3)
 
 
-    # b_item_emb = st.checkbox('Recommend using Item embedding')
-    # if b_item_emb:
-    #     f = open('bpr/bpr_model.json')
-    #     config = json.load(f)
-    #     model = build_model(config['M'], config['N'], config['k'])
-    #     model.load_weights("bpr/bpr_model.h5")
-    #     item_id = user_history_df['sid'][user_id]
-    #     time_duration = user_history_df['time_by_duration'][user_id]
-    #     sids,_ = get_similar_items(model, item_id, time_duration, topk=k_from_emb)
-    #     movies_df = pd.read_pickle('movies.pkl')
-    #     res = movies_df.loc[sids, ['movie_name', 'movie_genres']].copy()
-    #     st.dataframe(res)
+    b_item_emb = st.checkbox('Recommend using Item embedding')
+    if b_item_emb:
+        f = open('bpr/bpr_model.json')
+        config = json.load(f)
+        model = build_model(config['M'], config['N'], config['k'])
+        model.load_weights("bpr/bpr_model.h5")
+        item_id = user_history_df['sid'][user_id]
+        time_duration = user_history_df['time_by_duration'][user_id]
+        sids,_ = get_similar_items(model, item_id, time_duration, topk=k_from_emb)
+        movies_df = pd.read_pickle('movies.pkl')
+        res = movies_df.loc[sids, ['movie_name', 'movie_genres']].copy()
+        st.dataframe(res)
 
 
 if __name__ == '__main__':
